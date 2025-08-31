@@ -114,9 +114,9 @@ export function BookingForm({ onFormChange }: BookingFormProps) {
         </div>
 
         {/* Late Night Deal */}
-        <div className="flex items-center justify-between space-x-3 rounded-lg border p-3 bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200">
+        <div className="flex items-center justify-between space-x-3 rounded-lg border p-3 bg-gradient-to-r from-blue-100 to-indigo-100 border-blue-300">
           <div className="flex items-start space-x-3 min-w-0 flex-1">
-            <Moon className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+            <Moon className="h-5 w-5 text-blue-700 mt-0.5 flex-shrink-0" />
             <div className="min-w-0 flex-1">
               <Label htmlFor="late-night-deal" className="font-medium text-sm leading-tight">$25/hr Late-Night</Label>
               <p className="text-xs text-muted-foreground mt-0.5">9pm to close</p>

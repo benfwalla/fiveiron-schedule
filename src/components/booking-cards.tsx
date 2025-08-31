@@ -151,7 +151,11 @@ export function BookingCards({ timeSlots, selectedDuration, isLoading }: Booking
                   return (
                     <Card 
                       key={`${date}-${slot.time}`} 
-                      className="transition-all hover:shadow-md active:scale-95 border-green-200 bg-green-50/50 cursor-pointer touch-manipulation"
+                      className={`transition-all hover:shadow-md active:scale-95 cursor-pointer touch-manipulation ${
+                        parseInt(slot.time.split(':')[0]) >= 21
+                          ? 'border-blue-300 bg-blue-100/50'
+                          : 'border-input bg-background hover:bg-accent'
+                      }`}
                     >
                       <CardContent className="p-3 sm:p-2">
                         <div className="space-y-2 text-center sm:text-left">
@@ -160,7 +164,7 @@ export function BookingCards({ timeSlots, selectedDuration, isLoading }: Booking
                             <span className="text-sm md:text-base font-medium leading-tight">{slot.formattedTime}</span>
                           </div>
                           <div className="space-y-1 text-xs md:text-sm text-muted-foreground">
-                            <div className="font-medium text-green-700">${matchingSlot?.cost}</div>
+                                                                                <div className={`font-medium ${parseInt(slot.time.split(':')[0]) >= 21 ? 'text-blue-800' : 'text-foreground'}`}>${matchingSlot?.cost && (matchingSlot.cost % 1 !== 0 ? matchingSlot.cost.toFixed(2) : matchingSlot.cost)}</div>
                             <div className="flex items-center justify-center sm:justify-start gap-1">
                               <Flag className="h-2 w-2 flex-shrink-0" />
                               <span className="leading-tight">
