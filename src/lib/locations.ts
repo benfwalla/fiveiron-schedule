@@ -27,11 +27,11 @@ export const FIVE_IRON_LOCATIONS: Location[] = [
     name: 'Long Island City',
     city: 'New York City'
   },
-  {
-    id: '610341f5-c98d-4e02-ba7f-0ce46348cd34',
-    name: 'Rockefeller Center',
-    city: 'New York City'
-  },
+  // {
+  //   id: '610341f5-c98d-4e02-ba7f-0ce46348cd34',
+  //   name: 'Rockefeller Center',
+  //   city: 'New York City'
+  // },
   {
     id: '3e7541f4-535a-42ad-b5d2-32bc46ce859e',
     name: 'Upper East Side',
