@@ -32,17 +32,14 @@ export async function GET(request: NextRequest) {
   url.searchParams.append('endDateTime', endDateTime);
 
   try {
-    console.log('Fetching from Five Iron API:', url.toString());
-    
     const response = await fetch(url.toString(), {
       method: 'GET',
       headers: DEFAULT_HEADERS,
     });
 
-    console.log('Five Iron API response status:', response.status);
 
     if (!response.ok) {
-      console.error('Five Iron API error:', response.status, response.statusText);
+      throw new Error(`Failed to fetch availability: ${response.statusText}`);
       return NextResponse.json(
         { error: `API error: ${response.status} ${response.statusText}` },
         { status: response.status }
@@ -50,11 +47,9 @@ export async function GET(request: NextRequest) {
     }
 
     const data = await response.json();
-    console.log('Five Iron API response data length:', Array.isArray(data) ? data.length : 'not array');
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Error fetching from Five Iron API:', error);
     return NextResponse.json(
       { error: 'Failed to fetch availability' },
       { status: 500 }

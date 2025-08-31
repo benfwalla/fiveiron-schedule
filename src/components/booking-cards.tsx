@@ -30,13 +30,6 @@ export function BookingCards({ timeSlots, selectedDuration, isLoading }: Booking
   const processedSlots = useMemo(() => {
     const slots: ProcessedSlot[] = [];
     
-    // Log first few time slots for debugging
-    console.log('Processing time slots in BookingCards (first 3):', timeSlots.slice(0, 3).map(s => ({
-      rawTime: s.time,
-      parsedTime: new Date(s.time).toString(),
-      formattedTime: formatInTimeZone(new Date(s.time), 'America/New_York', 'yyyy-MM-dd hh:mm a (z)'),
-      hour: formatInTimeZone(new Date(s.time), 'America/New_York', 'H')
-    })));
     
     timeSlots.forEach((slot) => {
       // The API returns times in Eastern Time but marked as UTC (Z)
