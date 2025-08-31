@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { Clock, Users, Calendar as CalendarIcon } from 'lucide-react';
@@ -55,20 +55,6 @@ export default function Home() {
         );
       }
       
-      // Filter for late night slots if the deal is active
-      if (data.lateNightDeal) {
-        slots = slots.filter(slot => {
-          // The time is already in Eastern Time, just parse the hour
-          // Format is '2025-08-31T21:30:00.000Z' where 21:30 is Eastern Time
-          const timeString = slot.time; // e.g., '2025-08-31T21:30:00.000Z'
-          const timePart = timeString.split('T')[1]; // '21:30:00.000Z'
-          const hour = parseInt(timePart.split(':')[0]); // 21
-          
-          // Return true if hour is 9 PM (21) or later
-          return hour >= 21;
-        });
-      }
-      
       setTimeSlots(slots);
     } catch (err) {
       console.error('Error fetching availability:', err);
@@ -83,12 +69,24 @@ export default function Home() {
     setFormData(data);
   };
 
+  const filteredTimeSlots = useMemo(() => {
+    if (!formData?.lateNightDeal) {
+      return timeSlots;
+    }
+    return timeSlots.filter(slot => {
+      const timeString = slot.time;
+      const timePart = timeString.split('T')[1];
+      const hour = parseInt(timePart.split(':')[0]);
+      return hour >= 21;
+    });
+  }, [timeSlots, formData?.lateNightDeal]);
+
   // Fetch availability when form data changes
   useEffect(() => {
     if (formData && (formData.dateRange || formData.date)) {
       const timeoutId = setTimeout(() => {
         fetchAvailability(formData);
-      }, 500); // Debounce API calls
+      }, 100); // Debounce API calls
 
       return () => clearTimeout(timeoutId);
     }
@@ -148,7 +146,7 @@ export default function Home() {
               <div className="min-h-[400px]">
                 {formData && (formData.dateRange || formData.date) ? (
                   <BookingCards 
-                    timeSlots={timeSlots}
+                    timeSlots={filteredTimeSlots}
                     selectedDuration={formData.duration}
                     isLoading={isLoading}
                   />
